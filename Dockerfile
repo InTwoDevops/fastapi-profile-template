@@ -18,5 +18,8 @@ EXPOSE 8000
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# Copy the static files for the UI
+COPY app/static /app/static
+
 # Set the entrypoint to the Bash script
 ENTRYPOINT ["/entrypoint.sh"]

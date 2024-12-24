@@ -1,9 +1,10 @@
 # app/main.py
-from fastapi import FastAPI
+from fastapi import FastAPI, StaticFiles
 import sys
 import os
 import math
 from concurrent.futures import ThreadPoolExecutor
+from fastapi.responses import HTMLResponse
 
 app = FastAPI(
     docs_url="/docs",  # Swagger UI path
@@ -101,3 +102,9 @@ if PYINSTRUMENT_PROFILING == "True":
             return HTMLResponse(profiler.output_html())
         else:
             return await call_next(request)
+
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+@app.get("/")
+async def read_index():
+    return HTMLResponse(open("app/static/index.html").read())
